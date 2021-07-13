@@ -65,6 +65,7 @@ local configurations = {
   config = config {
     flags = {
       _get = "--get",
+      list = "--list"
     },
     aliases = {
       get = function(tbl)
