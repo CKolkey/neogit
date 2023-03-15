@@ -62,6 +62,8 @@ function M.file(commit, file)
   local result = cli.checkout.rev(commit).files(file).call_sync()
   if result.code ~= 0 then
     notif.create("Reset Failed", vim.log.levels.ERROR)
+  else
+    notif.create("Reset " .. file, vim.log.levels.info)
   end
 end
 

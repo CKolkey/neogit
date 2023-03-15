@@ -1,7 +1,4 @@
--- https://github.com/magit/magit/blob/main/lisp/magit-reset.el
-
 local popup = require("neogit.lib.popup")
-local notif = require("neogit.lib.notification")
 local git = require("neogit.lib.git")
 local util = require("neogit.lib.util")
 local status = require("neogit.status")
