@@ -390,6 +390,15 @@ local configurations = {
       abort = "--abort",
     },
   },
+
+  revert = config {
+    flags = {
+      no_commit = "--no-commit",
+      continue = "--continue",
+      skip = "--skip",
+      abort = "--abort",
+    },
+  },
 }
 
 local function git_root()

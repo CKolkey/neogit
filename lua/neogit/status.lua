@@ -1161,6 +1161,7 @@ local cmd_func_map = function()
     ["MergePopup"] = require("neogit.popups.merge").create,
     ["PushPopup"] = require("neogit.popups.push").create,
     ["CommitPopup"] = require("neogit.popups.commit").create,
+    ["RevertPopup"] = require("neogit.popups.revert").create,
     ["LogPopup"] = require("neogit.popups.log").create,
     ["CherryPickPopup"] = { "nv", a.void(cherry_pick), true },
     ["StashPopup"] = function()

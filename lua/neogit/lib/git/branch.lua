@@ -101,27 +101,27 @@ function M.prompt_for_branch(options, configuration)
   return chosen
 end
 
-function M.checkout_local()
-  local branches = M.get_local_branches()
+-- function M.checkout_local()
+--   local branches = M.get_local_branches()
+--
+--   a.util.scheduler()
+--   local chosen = M.prompt_for_branch(branches)
+--   if not chosen then
+--     return
+--   end
+--   cli.checkout.branch(chosen).call()
+-- end
 
-  a.util.scheduler()
-  local chosen = M.prompt_for_branch(branches)
-  if not chosen then
-    return
-  end
-  cli.checkout.branch(chosen).call()
-end
-
-function M.checkout()
-  local branches = M.get_all_branches()
-
-  a.util.scheduler()
-  local chosen = M.prompt_for_branch(branches)
-  if not chosen then
-    return
-  end
-  cli.checkout.branch(chosen).call()
-end
+-- function M.checkout()
+--   local branches = M.get_all_branches()
+--
+--   a.util.scheduler()
+--   local chosen = M.prompt_for_branch(branches)
+--   if not chosen then
+--     return
+--   end
+--   cli.checkout.branch(chosen).call()
+-- end
 
 function M.create()
   a.util.scheduler()
@@ -135,29 +135,29 @@ function M.create()
   return name
 end
 
-function M.delete()
-  local branches = M.get_all_branches()
+-- function M.delete()
+--   local branches = M.get_all_branches()
+--
+--   a.util.scheduler()
+--   local chosen = M.prompt_for_branch(branches)
+--   if not chosen then
+--     return
+--   end
+--
+--   cli.branch.delete.name(chosen).call_interactive()
+--
+--   return chosen
+-- end
 
-  a.util.scheduler()
-  local chosen = M.prompt_for_branch(branches)
-  if not chosen then
-    return
-  end
-
-  cli.branch.delete.name(chosen).call_interactive()
-
-  return chosen
-end
-
-function M.checkout_new()
-  a.util.scheduler()
-  local name = input.get_user_input("branch > ")
-  if not name or name == "" then
-    return
-  end
-
-  cli.checkout.new_branch(name:gsub("%s", "-")).call_interactive()
-end
+-- function M.checkout_new()
+--   a.util.scheduler()
+--   local name = input.get_user_input("branch > ")
+--   if not name or name == "" then
+--     return
+--   end
+--
+--   cli.checkout.new_branch(name:gsub("%s", "-")).call_interactive()
+-- end
 
 function M.current()
   local branch_name = cli.branch.current.call_sync():trim().stdout
