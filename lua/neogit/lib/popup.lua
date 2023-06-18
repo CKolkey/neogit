@@ -105,7 +105,7 @@ end
 -- Determines the correct highlight group for a config based on it's type and state.
 ---@return string
 local function get_highlight_for_config(config)
-  if config.value and config.value ~= "" and config.value ~= "unset" then
+  if config.value and config.value ~= "" then
     return config.type or "NeogitPopupConfigEnabled"
   end
 
@@ -261,7 +261,7 @@ function M:set_config(config)
         return
       end
 
-      return option.value == "unset" and "" or option.value
+      return option.value
     end))
 
     local index = options[config.value]
@@ -273,15 +273,11 @@ function M:set_config(config)
     -- For config's that require user input
     local result = vim.fn.input {
       prompt = config.name .. " > ",
-      default = config.value == "unset" and "" or config.value,
+      default = config.value,
       cancelreturn = config.value,
     }
 
-    if not result or result == "" then
-      config.value = "unset"
-    else
-      config.value = result
-    end
+    config.value = result
   end
 
   git.config.set(config.name, config.value)
