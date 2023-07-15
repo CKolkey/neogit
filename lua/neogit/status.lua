@@ -624,20 +624,16 @@ local stage = function()
       if section.name == "unstaged" then
         git.status.stage_modified()
       elseif section.name == "untracked" then
-        local add = git.cli.add
-        for i, _ in ipairs(section.files) do
-          local item = section.files[i]
-          add.files(item.name)
-        end
-        add.call()
+        git.index.add(map(section.files, function(item)
+          return item.name
+        end))
       end
       M.current_operation = nil
       return
     else
       if on_hunk and section.name ~= "untracked" then
         local hunk = get_current_hunk_of_item(item)
-        local patch = git.index.generate_patch(item, hunk)
-        git.index.apply(patch, { cached = true })
+        git.index.apply(git.index.generate_patch(item, hunk), { cached = true })
       else
         git.status.stage(item.name)
       end
@@ -669,8 +665,10 @@ local unstage = function()
 
       if on_hunk then
         local hunk = get_current_hunk_of_item(item)
-        local patch = git.index.generate_patch(item, hunk, nil, nil, true)
-        git.index.apply(patch, { reverse = true, cached = true })
+        git.index.apply(
+          git.index.generate_patch(item, hunk, nil, nil, true),
+          { reverse = true, cached = true }
+        )
       else
         git.status.unstage(item.name)
       end
@@ -705,10 +703,10 @@ local function discard_selected_files(files, section)
       vim.fn.delete(string.format("%s/%s", git.repo.git_root, file))
     end
   elseif section == "unstaged" then
-    cli.checkout.files(unpack(filenames)).call()
+    git.index.checkout(filenames)
   elseif section == "staged" then
-    cli.reset.files(unpack(filenames)).call()
-    cli.checkout.files(unpack(filenames)).call()
+    git.index.reset(filenames)
+    git.index.checkout(filenames)
   end
 end
 
@@ -766,6 +764,8 @@ local discard = function()
     return
   end
 
+  -- Make sure the index is in sync as git-status skips it
+  -- Do this manually since the `cli` add --no-optional-locks
   git.index.update()
 
   if mode.mode == "V" then
