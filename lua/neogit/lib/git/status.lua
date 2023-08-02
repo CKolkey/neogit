@@ -34,6 +34,13 @@ local function update_status(state)
     unstaged_files = Collection.new(state.unstaged.items or {}):key_by("name"),
   }
 
+  -- Reset before repopulating
+  state.head.branch = nil
+  state.head.oid = nil
+  state.upstream.branch = nil
+  state.upstream.remote = nil
+  state.upstream.ref = nil
+
   for _, l in ipairs(result.stdout) do
     local header, value = l:match("# ([%w%.]+) (.+)")
     if header then
